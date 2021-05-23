@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/gbasili/anvedi/issues"
   },
-  "homepage": "https://github.com/gbasili/anvedi#readme"
+  "homepage": "https://github.com/gbasili/anvedi#readme",
+  "dependencies": {
+    "fastify": "^3.15.1"
+  }
 }
