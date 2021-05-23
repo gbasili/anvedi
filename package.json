@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/gbasili/anvedi#readme",
   "dependencies": {
-    "fastify": "^3.15.1"
+    "fastify": "^3.15.1",
+    "fluent-json-schema": "^3.0.0"
   }
 }
