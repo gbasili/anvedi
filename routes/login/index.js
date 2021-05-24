@@ -1,4 +1,5 @@
 const S = require('fluent-json-schema')
+const UserLogin = require('../../src/domain/user/dto/user-login')
 
 async function rLogin (fastify, options) {
   const bodyJsonSchema = S.object()
@@ -18,7 +19,8 @@ async function rLogin (fastify, options) {
 
   fastify.post('/login2', { schema },  async (request, reply) => {
     console.log(request.body)
-    return { sss2: 'sss2', message2: 'hello ' + request.body.username }
+    const user = new UserLogin.UserLogin(request.body.username, request.body.password )
+    return { sss2: 'sss2', message2: 'hello ' + user.username + ' - ' + user.password }
   })
 
   fastify.post('/login', {
