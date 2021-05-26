@@ -19,7 +19,6 @@ class UserLoginResponse {
     }
 }
 
-//module.exports.favoriteAuthor = favoriteAuthor;
 module.exports = {
     UserLogin , UserLoginRequest, UserLoginResponse
 } 
