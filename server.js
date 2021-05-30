@@ -1,5 +1,9 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
+const userModel = require("./src/domain/user/models");
+userModel.sequelize.sync();
+
+fastify.decorate('userModel', userModel)
 
 fastify.register(require('./routes/login'))
 fastify.register(require('./routes/permission'))

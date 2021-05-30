@@ -15,8 +15,7 @@ async function rPermissions (fastify, options) {
     fastify.post('/permission', { schemaPermissionCreate },  async (request, reply) => {
         const permission = new DTO.PermissionDTO(0, request.body.Name)
         const useCase = new UseCase.PermissionCreateRequest(permission)
-        const permissionCommandService = new PermissionCommandService.PermissionCommandService()
-
+        const permissionCommandService = new PermissionCommandService.PermissionCommandService(fastify.userModel)
         return permissionCommandService.Create(useCase)
     })
 

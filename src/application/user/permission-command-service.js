@@ -3,12 +3,19 @@ const UseCase = require('../../domain/user/use-case/permission-create')
 
 class PermissionCommandService extends BaseCommand.BaseCommandService {
     
-    constructor() {
+    constructor(userModel) {
         super()
+        this.userModel = userModel;
     }
 
-    Create(request) {
-        return new UseCase.PermissionCreateResponse(request.Permission, 201)
+    async Create(request) {
+        try {
+            await this.userModel.permissions.create(request.Permission);
+            return new UseCase.PermissionCreateResponse(request.Permission, 200)
+        } catch(ex) {
+            console.log(ex)
+            return new UseCase.PermissionCreateResponse(request.Permission, 500)
+        }
     }
 
 }
