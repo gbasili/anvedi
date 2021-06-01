@@ -1,10 +1,11 @@
 const UserModel = require("./src/domain/user/models");
 const Permsission = UserModel.permissions; 
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = UserModel.sequelize;
+/*
 class Permission2 extends Model {
 
 }
-const sequelize = UserModel.sequelize;
 Permission2.init({
   // Model attributes are defined here
   Id: {
@@ -28,13 +29,14 @@ Permission2.init({
 const permission = {
   Name: 'prova'
 };
+*/
 
-UserModel.sequelize.sync().then(() => {
-  const permsission = { Name: 'Prova'};
+UserModel.sequelize.sync({ force: true}).then(() => {
+  const permsission = { Code: 'Va', Name: 'Prova'};
 
   UserModel.permissions.create(permsission)
     .then((data) => {
-      console.log("ok");
+      console.log("ok" + permsission.Id);
     }).catch((err) => {
       console.log("ko: " + err);
     });

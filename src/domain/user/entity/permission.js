@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const Entity = require('../../base/entity/base-entity')
+const K = require('../../constants')
 
 module.exports = (sequelize) => {
     
@@ -13,8 +14,12 @@ module.exports = (sequelize) => {
             autoIncrement: true,
             allowNull: false
         },
+        Code: {
+          type: DataTypes.STRING(K.DataLength.Permission.Code),
+          allowNull: false
+        },
         Name: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.STRING(K.DataLength.Permission.Name),
             allowNull: false
         }
       }, {
