@@ -1,5 +1,7 @@
 const BaseCommand = require('../base/base-command-service')
 const UseCase = require('../../domain/user/use-case');
+const K = require('../../domain/constants')
+const Mapper = require('../../domain/user/mapper/permission-mapper')
 
 class PermissionCommandService extends BaseCommand.BaseCommandService {
     
@@ -8,29 +10,42 @@ class PermissionCommandService extends BaseCommand.BaseCommandService {
         this.userModel = userModel;
     }
 
-    async Create(request) {
+    async Create(useCase) {
         try {
-            await this.userModel.permissions.create(request.Permission);
-            return new UseCase.Create.PermissionCreateResponse(request.Permission, 200)
+            await this.userModel.permissions.create(useCase.Permission);
+            return new UseCase.Create.PermissionCreateResponse(useCase.Permission, K.ResulCode.OK)
         } catch(ex) {
             console.log(ex)
-            return new UseCase.PermissionCreateResponse(request.Permission, 500)
+            return new UseCase.PermissionCreateResponse(useCase.Permission, K.ResulCode.INTERNAL_SERVER_ERROR)
         }
     }
 
-    async Update(request) {
+    async Update(useCase) {
         try {
-            var p = await this.userModel.permissions.findByPk(request.Permission.Id);
+            var p = await this.userModel.permissions.findByPk(useCase.Permission.Id);
             if (p == null){
-                return new UseCase.Update.PermissionUpdateResponse(request.Permission, 404)
+                return new UseCase.Update.PermissionUpdateResponse(useCase.Permission, K.ResulCode.NOT_FOUND)
             }
-            p.Code = request.Permission.Code;
-            p.Name = request.Permission.Name;
+            Mapper.PermissionMapper.ToEntity(useCase.Permission, p)
             await p.save();
-            return new UseCase.Update.PermissionUpdateResponse(request.Permission, 200)
+            return new UseCase.Update.PermissionUpdateResponse(useCase.Permission, K.ResulCode.OK)
         } catch(ex) {
             console.log(ex)
-            return new UseCase.Update.PermissionUpdateResponse(request.Permission, 500)
+            return new UseCase.Update.PermissionUpdateResponse(useCase.Permission, K.ResulCode.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    async Delete(useCase) {
+        try {
+            var p = await this.userModel.permissions.findByPk(useCase.Id);
+            if (p == null){
+                return new UseCase.Delete.PermissionDeleteResponse(K.ResulCode.NOT_FOUND)
+            }
+            await p.destroy()
+            return new UseCase.Delete.PermissionDeleteResponse(K.ResulCode.OK)
+        } catch(ex) {
+            console.log(ex)
+            return new UseCase.Delete.PermissionDeleteResponse(K.ResulCode.INTERNAL_SERVER_ERROR)
         }
     }
 

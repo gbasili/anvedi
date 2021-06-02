@@ -4,6 +4,8 @@ https://www.sunspeaks.net/fastify-database-integration-with-sequelize/#modeldefn
 
 https://sequelize.org/master/manual/model-basics.html
 
+https://dev.to/cristiandi/demo-api-using-fastify-48jo
+
 Infra
     Inversify
     Mock
@@ -71,4 +73,23 @@ Models
         RoleId
         PermissionId
 
+
+
+TODO
+    log sequelize
+    move queryHelper
+    remove repository
+    remove fluentjsonschema
+    seed
+    test
+    transaction in command
+    get id of new entity
+    queryAtoms more ops
+    includeAtoms nest
+
+DONE
+    environment variables
+    delete
+    sortingAtoms
+    loadAtoms
 

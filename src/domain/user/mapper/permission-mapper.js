@@ -2,7 +2,8 @@ const DTO = require('../dto/permission')
 class PermissionMapper {
 
     static ToEntity(dto, entity) {
-        return { };
+        entity.Code = dto.Code;
+        entity.Name = dto.Name;
     }
 
     static ToDto(entities) {

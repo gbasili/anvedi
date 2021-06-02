@@ -1,23 +1,22 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
-const userModel = require("./src/domain/user/models");
-userModel.sequelize.sync();
+// config
+const config = require('./config');
 
-fastify.decorate('userModel', userModel)
-
+// routes
 fastify.register(require('./routes/login'))
 fastify.register(require('./routes/permission'))
 fastify.register(require('./routes/users'))
 
-// Declare a route
-fastify.get('/', async (request, reply) => {
-  return { hello: 'world' }
-})
+// models
+const userModel = require("./src/domain/user/models");
+userModel.sequelize.sync();
+fastify.decorate('userModel', userModel)
 
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(3000)
+    await fastify.listen(config.port)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
