@@ -77,13 +77,15 @@ Models
 
 TODO
     log sequelize
-    move queryHelper
-    remove repository
-    remove fluentjsonschema
+    transaction in command
+    retrieve id after insert
     seed
     test
-    transaction in command
-    get id of new entity
+    Reorg namespace
+        move queryHelper
+        remove repository
+        remove fluentjsonschema
+    AuditLog
     queryAtoms more ops
     includeAtoms nest
 
