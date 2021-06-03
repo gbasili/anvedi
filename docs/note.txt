@@ -76,11 +76,11 @@ Models
 
 
 TODO
-    log sequelize
     transaction in command
     retrieve id after insert
     seed
     test
+    log pino sequelize
     Reorg namespace
         move queryHelper
         remove repository

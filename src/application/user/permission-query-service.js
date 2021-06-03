@@ -7,14 +7,14 @@ const K = require('../../domain/constants')
 
 class PermissionQueryService extends BaseQuery.BaseQueryService {
     
-    constructor(userModel) {
+    constructor(userContext) {
         super()
-        this.userModel = userModel;
+        this.userContext = userContext;
     }
 
     async ReadOne(useCase) {
         try {
-            const entity = await this.userModel.permissions.findByPk(useCase.id);
+            const entity = await this.userContext.permissions.findByPk(useCase.id);
             if (entity == null){
                 return new UseCase.Read.PermissionReadOneResponse(null, K.ResulCode.NOT_FOUND) 
             }
@@ -30,9 +30,9 @@ class PermissionQueryService extends BaseQuery.BaseQueryService {
         try {
             const where = QueryHelper.GetWhere(useCase.queryAtoms);
             const options = QueryHelper.GetOptions(where, useCase.queryAtoms, useCase.sortingAtoms, useCase.pager, useCase.includeAtoms, useCase.loadAtoms);
-            const entities = await this.userModel.permissions.findAll(options);
+            const entities = await this.userContext.permissions.findAll(options);
             const permissions = Mapper.PermissionMapper.ToDto(entities)
-            const total = await this.userModel.permissions.count({ where: where });
+            const total = await this.userContext.permissions.count({ where: where });
             return new UseCase.Read.PermissionReadAllResponse(permissions, total, K.ResulCode.OK)
         } catch(ex) {
             console.log(ex)

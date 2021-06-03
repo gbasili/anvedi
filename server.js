@@ -9,9 +9,10 @@ fastify.register(require('./routes/permission'))
 fastify.register(require('./routes/users'))
 
 // models
-const userModel = require("./src/domain/user/models");
-userModel.sequelize.sync();
-fastify.decorate('userModel', userModel)
+const userContext = require("./src/domain/user/models");
+
+
+fastify.decorate('userContext', userContext.userContext)
 
 // Run the server!
 const start = async () => {

@@ -17,5 +17,5 @@ module.exports = {
     db_user_pool_min: process.env.DB_USER_POOL_MIN,
     db_user_pool_acquire: process.env.DB_USER_POOL_ACQUIRE,
     db_user_pool_idle: process.env.DB_USER_POOL_IDLE,
-    db_user_logging: process.env.DB_USER_LOGGING = "0" ? false : console.log
+    db_user_logging: process.env.DB_USER_LOGGING == "console" ? console.log : false
 }

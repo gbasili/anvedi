@@ -108,21 +108,21 @@ async function rPermissions (fastify, options) {
     fastify.post('/permission', { schema: schemaPermissionCreate },  async (request, reply) => {
         const permission = new DTO.PermissionDTO(0, request.body.Code, request.body.Name)
         const useCase = new UseCase.Create.PermissionCreateRequest(permission)
-        const permissionCommandService = new Command.PermissionCommandService(fastify.userModel)
+        const permissionCommandService = new Command.PermissionCommandService(fastify.userContext)
         return permissionCommandService.Create(useCase)
     })
 
     // read
     fastify.get('/permission/:id', { schema: schemaPermissionRead },  async (request, reply) => {
         const useCase = new UseCase.Read.PermissionReadOneRequest(request.params.id)
-        const permissionQueryService = new Query.PermissionQueryService(fastify.userModel)
+        const permissionQueryService = new Query.PermissionQueryService(fastify.userContext)
         return permissionQueryService.ReadOne(useCase)
     })
     
     // readAll
     fastify.post('/permissions', { schema: schemaPermissionReadAll },  async (request, reply) => {
         const useCase = new UseCase.Read.PermissionReadAllRequest(request.body.q, request.body.s, request.body.p, request.body.i, request.body.l)
-        const permissionQueryService = new Query.PermissionQueryService(fastify.userModel)
+        const permissionQueryService = new Query.PermissionQueryService(fastify.userContext)
         return permissionQueryService.ReadAll(useCase)
     })
 
@@ -130,14 +130,14 @@ async function rPermissions (fastify, options) {
     fastify.put('/permission', { schema: schemaPermissionUpdate },  async (request, reply) => {
         const permission = new DTO.PermissionDTO(request.body.Id, request.body.Code, request.body.Name)
         const useCase = new UseCase.Update.PermissionUpdateRequest(permission)
-        const permissionCommandService = new Command.PermissionCommandService(fastify.userModel)
+        const permissionCommandService = new Command.PermissionCommandService(fastify.userContext)
         return permissionCommandService.Update(useCase)
     })
 
     // delete
     fastify.delete('/permission/:id', { schema: schemaPermissionDelete },  async (request, reply) => {
         const useCase = new UseCase.Delete.PermissionDeleteRequest(request.params.id)
-        const permissionCommandService = new Command.PermissionCommandService(fastify.userModel)
+        const permissionCommandService = new Command.PermissionCommandService(fastify.userContext)
         return permissionCommandService.Delete(useCase)
     })
 }

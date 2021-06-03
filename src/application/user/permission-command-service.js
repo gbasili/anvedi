@@ -5,46 +5,56 @@ const Mapper = require('../../domain/user/mapper/permission-mapper')
 
 class PermissionCommandService extends BaseCommand.BaseCommandService {
     
-    constructor(userModel) {
+    constructor(userContext) {
         super()
-        this.userModel = userModel;
+        this.userContext = userContext;
     }
 
     async Create(useCase) {
         try {
-            await this.userModel.permissions.create(useCase.Permission);
+            const t = await this.userContext.beginTransaction()
+            const permission = await this.userContext.permissions.create(useCase.Permission, { transaction: t });
+            this.userContext.commit()
+            useCase.Permission.Id = permission.Id
             return new UseCase.Create.PermissionCreateResponse(useCase.Permission, K.ResulCode.OK)
         } catch(ex) {
             console.log(ex)
+            this.userContext.rollback()
             return new UseCase.PermissionCreateResponse(useCase.Permission, K.ResulCode.INTERNAL_SERVER_ERROR)
         }
     }
 
     async Update(useCase) {
         try {
-            var p = await this.userModel.permissions.findByPk(useCase.Permission.Id);
+            const t = await this.userContext.beginTransaction()
+            var p = await this.userContext.permissions.findByPk(useCase.Permission.Id);
             if (p == null){
                 return new UseCase.Update.PermissionUpdateResponse(useCase.Permission, K.ResulCode.NOT_FOUND)
             }
             Mapper.PermissionMapper.ToEntity(useCase.Permission, p)
-            await p.save();
+            await p.save({ transaction: t });
+            this.userContext.commit()
             return new UseCase.Update.PermissionUpdateResponse(useCase.Permission, K.ResulCode.OK)
         } catch(ex) {
             console.log(ex)
+            this.userContext.rollback()
             return new UseCase.Update.PermissionUpdateResponse(useCase.Permission, K.ResulCode.INTERNAL_SERVER_ERROR)
         }
     }
 
     async Delete(useCase) {
         try {
+            const t = await this.userModel.beginTransaction()
             var p = await this.userModel.permissions.findByPk(useCase.Id);
             if (p == null){
                 return new UseCase.Delete.PermissionDeleteResponse(K.ResulCode.NOT_FOUND)
             }
-            await p.destroy()
+            await p.destroy({ transaction: t })
+            this.userModel.commit()
             return new UseCase.Delete.PermissionDeleteResponse(K.ResulCode.OK)
         } catch(ex) {
             console.log(ex)
+            this.userModel.rollback()
             return new UseCase.Delete.PermissionDeleteResponse(K.ResulCode.INTERNAL_SERVER_ERROR)
         }
     }
