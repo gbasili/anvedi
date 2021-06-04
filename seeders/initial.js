@@ -4,7 +4,9 @@ const config = require('../config');
 const userContext = require("../src/domain/user/models");
 
 
-//userContext.userContext.sequelize.sync({ force: true})
+userContext.userContext.sequelize.sync({ force: true}).then(() => {
+    initPermissions();
+})
 
 async function initPermissions() {
     await userContext.userContext.permissions.bulkCreate([
@@ -30,6 +32,6 @@ async function initPermissions() {
         { Code: 'P20', Name: 'P20 Name' },
     ]);
 }
-initPermissions();
+
 
 console.log('bye.');
