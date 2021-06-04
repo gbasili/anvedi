@@ -1,15 +1,18 @@
-const config = require('../config');
+import config from '../config.js'
+import authContext from '../plugins/auth/auth-context.js';
+import f  from 'fastify'
 
 // models
-const userContext = require("../src/domain/user/models");
+const fastify = f()
+authContext(fastify, config)
 
 
-userContext.userContext.sequelize.sync({ force: true}).then(() => {
+fastify.authContext.sequelize.sync({ force: true}).then(() => {
     initPermissions();
 })
 
 async function initPermissions() {
-    await userContext.userContext.permissions.bulkCreate([
+    await fastify.authContext.permissions.bulkCreate([
         { Code: 'P01', Name: 'P01 Name' },
         { Code: 'P02', Name: 'P02 Name' },
         { Code: 'P03', Name: 'P03 Name' },
@@ -32,6 +35,5 @@ async function initPermissions() {
         { Code: 'P20', Name: 'P20 Name' },
     ]);
 }
-
 
 console.log('bye.');

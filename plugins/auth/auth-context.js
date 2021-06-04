@@ -17,10 +17,8 @@ async function authContext(fastify, opts) {
             logging: opts.db_anvedi_logging
         }
     );
-    await sequelize.sync();
-
+    
     const authContextInstance = new AuthContext(sequelize);
-
     fastify.decorate('authContext', authContextInstance)
 }
 
