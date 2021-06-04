@@ -1,26 +1,20 @@
-// Require the framework and instantiate it
-const fastify = require('fastify')({ logger: true })
-// config
-const config = require('./config');
+'use strict'
+import config  from './config.js'
+import app from './app.js'
 
-// routes
-fastify.register(require('./routes/login'))
-fastify.register(require('./routes/permission'))
-fastify.register(require('./routes/users'))
+const server = app({
+  config: config,
+  fastifyOptions: {
+    logger: {
+      level: 'info',
+      prettyPrint: true
+    }
+  }
+})
 
-// models
-const userContext = require("./src/domain/user/models");
-
-
-fastify.decorate('userContext', userContext.userContext)
-
-// Run the server!
-const start = async () => {
-  try {
-    await fastify.listen(config.port)
-  } catch (err) {
-    fastify.log.error(err)
+server.listen(config.port, (err, address) => {
+  if (err) {
+    console.log(err)
     process.exit(1)
   }
-}
-start()
+})
