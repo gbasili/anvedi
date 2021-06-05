@@ -1,20 +1,18 @@
 'use strict'
 import tap from 'tap'
-import buildFastify  from '../../../app.js'
 import config  from '../../../config.js'
 import K  from '../../../plugins/anvedi/constants.js'
-let qo = {
-  "s": [{ "f": "Id", "a": false }],
-  "p": { "l": 20, "o": 0 },
-  "l":[],
-  "i": []
-}
+import startup  from '../../../infrastructure/startup-test.js'
+import Helper  from '../../helper.js'
+const helper = new Helper()
+
+let qo = helper.getQueryOptions()
 
 tap.test('GET `/permission/1` route', t => {
   t.plan(4)
  
-  const fastify = buildFastify({ config: config, fastifyOptions: {}})
-  t.teardown(() => fastify.close())
+  const fastify = helper.buildFastify(startup, config, {})
+  t.teardown(() => helper.terminate(startup, fastify))
 
   fastify.inject({
     method: 'GET',
@@ -31,8 +29,8 @@ tap.test('GET `/permission/1` route', t => {
 
 tap.test('POST `/permissions` eq Id=10', t => {
   t.plan(4)
-  const fastify = buildFastify({ config: config, fastifyOptions: {}})
-  t.teardown(() => fastify.close())
+  const fastify = helper.buildFastify(startup, config, {})
+  t.teardown(() => helper.terminate(startup, fastify))
 
   qo.q = [ { "f": "Id", "o": K.Operator.EQUAL_TO, "v": 10, "t": "s" }]
   fastify.inject({
@@ -50,8 +48,8 @@ tap.test('POST `/permissions` eq Id=10', t => {
 
 tap.test('POST `/permissions` not equalto 1', t => {
   t.plan(4)
-  const fastify = buildFastify({ config: config, fastifyOptions: {}})
-  t.teardown(() => fastify.close())
+  const fastify = helper.buildFastify(startup, config, {})
+  t.teardown(() => helper.terminate(startup, fastify))
 
   qo.q = [ { "f": "Id", "o": K.Operator.NOT_EQUAL_TO, "v": 1, "t": "s" }]
   fastify.inject({
@@ -69,8 +67,8 @@ tap.test('POST `/permissions` not equalto 1', t => {
 
 tap.test('POST `/permissions` lt 6', t => {
   t.plan(4)
-  const fastify = buildFastify({ config: config, fastifyOptions: {}})
-  t.teardown(() => fastify.close())
+  const fastify = helper.buildFastify(startup, config, {})
+  t.teardown(() => helper.terminate(startup, fastify))
 
   qo.q = [ { "f": "Id", "o": K.Operator.LESS_THAN, "v": 6, "t": "s" }]
   fastify.inject({
@@ -88,8 +86,8 @@ tap.test('POST `/permissions` lt 6', t => {
 
 tap.test('POST `/permissions` lte 10', t => {
   t.plan(4)
-  const fastify = buildFastify({ config: config, fastifyOptions: {}})
-  t.teardown(() => fastify.close())
+  const fastify = helper.buildFastify(startup, config, {})
+  t.teardown(() => helper.terminate(startup, fastify))
 
   qo.q = [ { "f": "Id", "o": K.Operator.LESS_THAN_OR_EQUAL_TO, "v": 10, "t": "s" }]
   fastify.inject({
@@ -107,8 +105,8 @@ tap.test('POST `/permissions` lte 10', t => {
 
 tap.test('POST `/permissions` gt 5', t => {
   t.plan(4)
-  const fastify = buildFastify({ config: config, fastifyOptions: {}})
-  t.teardown(() => fastify.close())
+  const fastify = helper.buildFastify(startup, config, {})
+  t.teardown(() => helper.terminate(startup, fastify))
 
   qo.q = [ { "f": "Id", "o": K.Operator.GREATER_THAN, "v": 5, "t": "s" }]
   fastify.inject({
@@ -126,8 +124,8 @@ tap.test('POST `/permissions` gt 5', t => {
 
 tap.test('POST `/permissions` gte 15', t => {
   t.plan(4)
-  const fastify = buildFastify({ config: config, fastifyOptions: {}})
-  t.teardown(() => fastify.close())
+  const fastify = helper.buildFastify(startup, config, {})
+  t.teardown(() => helper.terminate(startup, fastify))
 
   qo.q = [ { "f": "Id", "o": K.Operator.GREATER_THAN_OR_EQUAL_TO, "v": 15, "t": "s" }]
   fastify.inject({

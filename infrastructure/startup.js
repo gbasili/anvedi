@@ -1,13 +1,12 @@
 'use strict'
-
-static class StartUp {
+class StartUp {
     
     static registerConfig(options) {
 
     }
 
     static registerPlugins(fastify, options) {
-
+        fastify.register(import('../plugins/auth/auth-context.js'), options)
     }
 
     static registerRoutes(fastify, options) {
@@ -23,7 +22,11 @@ static class StartUp {
     }
 
     static stop(options){
+        try {
 
+        } catch {
+
+        }
     }
 }
 

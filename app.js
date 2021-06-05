@@ -1,8 +1,9 @@
 'use strict'
 import fastify from 'fastify'
 
-function build(startUp, opts={}) {
-    startUp.startUp()
+function build(startup, opts={}) {
+    startup.start()
+    
     const app = fastify(opts.fastifyOptions)
 
     app.get('/', async function (request, reply) {
@@ -10,11 +11,11 @@ function build(startUp, opts={}) {
     })
 
     // routes
-    startUp.registerRoutes(app, opts)
+    startup.registerRoutes(app, opts)
     
     // plugins
-    app.register(import('./plugins/auth/auth-context.js'), opts.config)
-
+    startup.registerPlugins(app, opts.config)
+    
     // models
     //const authContext = import("./src/domain/user/models");
     //app.decorate('authContext', authContext.authContext)

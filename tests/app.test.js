@@ -1,18 +1,18 @@
 'use strict'
-
 import tap from 'tap'
 import config  from '../config.js'
-import buildFastify  from '../app.js'
 import startup  from '../infrastructure/startup-test.js'
+import Helper from './helper.js'
+const helper = new Helper()
 
 tap.test('GET `/` route', t => {
   t.plan(4)
   
-  const fastify = buildFastify(startup, { config: config, fastifyOptions: {}})
+  const fastify = helper.buildFastify(startup, config, {})
 
   // At the end of your tests it is highly recommended to call `.close()`
   // to ensure that all connections to external services get closed.
-  t.teardown(() => fastify.close())
+  t.teardown(() => helper.terminate(startup, fastify))
 
   fastify.inject({
     method: 'GET',
