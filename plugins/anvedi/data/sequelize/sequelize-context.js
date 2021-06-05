@@ -6,8 +6,8 @@ class SequelizeContext {
         this.transaction = null
     }
 
-    async beginTransaction(cb){
-        this.transaction = await sequelize.transaction()
+    async beginTransaction(){
+        this.transaction = await this.sequelize.transaction()
         return this.transaction
     }
 

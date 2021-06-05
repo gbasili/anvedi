@@ -16,9 +16,8 @@ function build(startup, opts={}) {
     // plugins
     startup.registerPlugins(app, opts.config)
     
-    // models
-    //const authContext = import("./src/domain/user/models");
-    //app.decorate('authContext', authContext.authContext)
+    // services
+    startup.registerServices(app, opts.config)
 
     return app
 }

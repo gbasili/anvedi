@@ -13,8 +13,8 @@ class StartUp {
         fastify.register(import('../routes/auth/permission.js'))
     }
 
-    static registerServices(options) {
-
+    static registerServices(fastify, options) {
+        fastify.register(import('../plugins/auth/services/service-container.js'), options)
     }
 
     static start(options){
